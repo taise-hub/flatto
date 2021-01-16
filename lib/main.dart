@@ -1,3 +1,4 @@
+import 'package:flatto/common/theme.dart';
 import 'package:flatto/screens/MapScreen.dart';
 import 'package:flatto/screens/NoticeScreen.dart';
 import 'package:flatto/screens/ProfileScreen.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/material.dart';
 void main() {
   runApp(MaterialApp(
     title: 'flatto',
+    theme: appTheme,
     home: MyStatefulWidget(),
   ));
 }
@@ -37,7 +39,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('フラッと')),
+      // appBar: AppBar(
+      //   title: const Text('フラッと'),
+      // ),
       body: PageView(
           controller: _pageController,
           physics: new NeverScrollableScrollPhysics(),

@@ -25,7 +25,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   void initState() {
     super.initState();
     // PageControllerの初期化
-    _pageController = PageController(initialPage: _selectedIndex);
+    _pageController = PageController();
   }
 
   @override
@@ -41,6 +41,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       body: PageView(
           //TODO: pageViwqのコントローラ属性について勉強する
           controller: _pageController,
+          physics: new NeverScrollableScrollPhysics(),
           children: [
             //ここにWidgetを突っ込む
             Text(

@@ -1,3 +1,7 @@
+import 'package:flatto/screens/MapScreen.dart';
+import 'package:flatto/screens/NoticeScreen.dart';
+import 'package:flatto/screens/ProfileScreen.dart';
+import 'package:flatto/screens/RankingScreen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -17,10 +21,6 @@ class MyStatefulWidget extends StatefulWidget {
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   PageController _pageController;
   int _selectedIndex = 0;
-
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-
   @override
   void initState() {
     super.initState();
@@ -39,33 +39,26 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     return Scaffold(
       appBar: AppBar(title: const Text('フラッと')),
       body: PageView(
-          //TODO: pageViwqのコントローラ属性について勉強する
           controller: _pageController,
           physics: new NeverScrollableScrollPhysics(),
           children: [
-            //ここにWidgetを突っ込む
-            Text(
-              'Index:1',
-              style: optionStyle,
-            ),
-            Text(
-              'Index:2',
-              style: optionStyle,
-            ),
-            Text(
-              'Index:3',
-              style: optionStyle,
-            )
+            MapScreen(),
+            RankingScreen(),
+            NoticeScreen(),
+            ProfileScreen(),
           ]),
       bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
           currentIndex: _selectedIndex,
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
             BottomNavigationBarItem(
-                icon: Icon(Icons.business), label: 'Bussiness'),
-            BottomNavigationBarItem(icon: Icon(Icons.school), label: 'School'),
+                icon: Icon(Icons.emoji_flags_rounded), label: 'Bussiness'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.notifications_active), label: 'School'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.person_sharp), label: 'Profile')
           ],
-          selectedItemColor: Colors.amber[80],
           onTap: (index) {
             setState(() {
               _selectedIndex = index;
@@ -76,5 +69,3 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     );
   }
 }
-
-//TODO: PageControllerの仕組みを勉強する

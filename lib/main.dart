@@ -53,9 +53,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
             BottomNavigationBarItem(
-                icon: Icon(Icons.emoji_flags_rounded), label: 'Bussiness'),
+                icon: Icon(Icons.emoji_flags_rounded), label: 'Ranking'),
             BottomNavigationBarItem(
-                icon: Icon(Icons.notifications_active), label: 'School'),
+                icon: Icon(Icons.notifications_active), label: 'Notification'),
             BottomNavigationBarItem(
                 icon: Icon(Icons.person_sharp), label: 'Profile')
           ],

@@ -10,7 +10,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Container(
         child: Center(
-      child: Text("Profile"),
+      child: Text('Profile'),
     ));
   }
 }

@@ -10,7 +10,7 @@ class _RankingScreenState extends State<RankingScreen> {
   Widget build(BuildContext context) {
     return Container(
         child: Center(
-      child: Text("Ranking"),
+      child: Text('Ranking'),
     ));
   }
 }

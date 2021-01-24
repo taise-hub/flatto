@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_place/google_place.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
-const apiKey = "AIzaSyDtDCLMq5Kh6YLkATNpUNQa7SJYZG-As0w";
+const apiKey = 'AIzaSyAQgErYcaWFgxhjkqyx9xRVRQBORTZ743I';
 
 class MapScreen extends StatefulWidget {
   @override
   _MapScreenState createState() => _MapScreenState();
 }
 
-//Dartの非同期処理について勉強
 class _MapScreenState extends State<MapScreen> {
   GooglePlace googlePlace;
   Position position;
@@ -81,27 +81,153 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("========build start");
+    debugPrint('========build start');
     return FutureBuilder<Position>(
         future: _getPosition(),
         builder: (BuildContext context, AsyncSnapshot<Position> snapshot) {
-          GoogleMap body;
+          GoogleMap map;
           position = snapshot.data;
           if (snapshot.hasData) {
-            body = GoogleMap(
+            map = GoogleMap(
               mapType: MapType.terrain,
               onMapCreated: _onMapCreated,
               initialCameraPosition: CameraPosition(
-                // target: LatLng(38.268195, 140.869418),
                 target: LatLng(position.latitude, position.longitude),
-                zoom: 10.0,
+                zoom: 17.0,
               ),
               markers: _markers.values.toSet(),
             );
+          } else {
+            return Center(
+              child: Text('ちょっと待ってね'),
+            );
           }
           return Scaffold(
-            body: body,
-          );
+              body: Stack(
+            children: <Widget>[
+              map,
+              Positioned(
+                left: -70,
+                top: 525.0,
+                width: 550,
+                height: 300,
+                child: ShopCardWidget(),
+              ),
+            ],
+          ));
         });
+  }
+}
+
+//TODO　cardをMapScreen下部に表示する。
+class ShopCardWidget extends StatelessWidget {
+  CarouselController buttonCarouselController = CarouselController();
+  @override
+  Widget build(BuildContext context) {
+    return CarouselSlider(
+      options: CarouselOptions(
+        height: 280,
+        enlargeCenterPage: true,
+        enlargeStrategy: CenterPageEnlargeStrategy.scale,
+      ),
+      items: [1, 2, 3, 4, 5].map((i) {
+        return Builder(
+          builder: (BuildContext context) {
+            return Container(
+              width: MediaQuery.of(context).size.width,
+              margin: EdgeInsets.symmetric(horizontal: 10),
+              //ToDo cardの中身の実装
+              child: Card(
+                elevation: 5.0,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Expanded(
+                        child: ClipRRect(
+                            //角丸にするやつ
+                            borderRadius: BorderRadius.circular(8.0),
+                            child: Image.network(
+                                'https://activephotostyle.biz/wp-content/uploads/2019/01/4799_IMGP2561-2-1024x681.jpg',
+                                height: 400,
+                                width: 600,
+                                fit: BoxFit.fitWidth))), //ここまでは妥協点
+                    Row(
+                      children: [
+                        Expanded(
+                            child: Column(
+                          children: [
+                            Container(
+                                padding: const EdgeInsets.only(
+                                    bottom: 8, right: 0, left: 0),
+                                child: ListTile(
+                                  title: Text(
+                                    'ふらっと酒場',
+                                    style: TextStyle(
+                                      fontSize: 26,
+                                      fontWeight: FontWeight.bold,
+                                      //ToDO: Use Google Font
+                                    ),
+                                  ),
+                                  subtitle: Text(
+                                    '平均予算3000円',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      //ToDO: Use Google Font
+                                    ),
+                                  ),
+                                )),
+                          ],
+                        )),
+                        Icon(Icons.local_drink_rounded,
+                            size: 36, color: Colors.orangeAccent),
+                        const SizedBox(width: 8),
+                        Icon(
+                          Icons.local_drink_rounded,
+                          size: 36,
+                        ),
+                        const SizedBox(width: 8),
+                        Icon(
+                          Icons.local_drink_rounded,
+                          size: 36,
+                        ),
+                        const SizedBox(width: 8),
+                      ],
+                    ),
+                    // Text("フラッと酒場"),
+                    RaisedButton(
+                      padding: EdgeInsets.symmetric(vertical: 2.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.car_rental,
+                            size: 40,
+                          ),
+                          Text(
+                            '今から行く',
+                            style: TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                              //ToDO: Use Google Font
+                            ),
+                          ),
+                        ],
+                      ),
+                      color: Colors.orange[200],
+                      shape: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(22)),
+                      ),
+                      onPressed: () {/* ... */},
+                    ),
+                    const SizedBox(height: 5.0),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      }).toList(),
+    );
   }
 }
